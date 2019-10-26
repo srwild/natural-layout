@@ -20,5 +20,17 @@ horizontalAxis = roundConvertToPoints(signWidthInches)
 verticalAxis = roundConvertToPoints(signHeightInches)
 
 
+def findShortestAxis():
+  if horizontalAxis < verticalAxis:
+    shortestAxis = horizontalAxis
+  else:
+    shortestAxis = verticalAxis
+  return shortestAxis
+
+
+A = findShortestAxis() * .15
+B = verticalAxis * .15
+
+
 
 size(horizontalAxis, verticalAxis)
