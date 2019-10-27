@@ -1,5 +1,5 @@
-signWidthInches = 11
-signHeightInches = 5.75
+signWidthInches = 3
+signHeightInches = 7.5
 
 
 def convertToPoints(dimension):
@@ -7,30 +7,34 @@ def convertToPoints(dimension):
     return dimension
 
 
-horizontalAxis = convertToPoints(signWidthInches)
-verticalAxis = convertToPoints(signHeightInches)
+signWidth = convertToPoints(signWidthInches)
+signHeight = convertToPoints(signHeightInches)
 
+
+
+opticalCenter = signWidth / 2, signHeight * .54
+
+verticalAxis = signHeight
+horizontalAxis = signWidth
 
 def findShortestAxis():
-    if horizontalAxis < verticalAxis:
-        shortestAxis = horizontalAxis
-    else:
+    if verticalAxis < horizontalAxis:
         shortestAxis = verticalAxis
+    else:
+        shortestAxis = horizontalAxis
     return shortestAxis
 
 
 A = findShortestAxis() * .15
-B = verticalAxis * .15
+B = horizontalAxis * .17
 
-
-opticalCenter = horizontalAxis / 2, verticalAxis * .54
 
 def drawopticalCenter():
     circleSize = 10
     circleSizeHalf = circleSize / 2
 
     with savedState():
-        fill(1)
+        fill()
         cmykStroke(1, 0, 0, 0)
         strokeWidth(1)
         translate(opticalCenter[0] - circleSize / 2, opticalCenter[1] - circleSize / 2)
@@ -40,9 +44,47 @@ def drawopticalCenter():
 
 
 
+size(signWidth + 36, signHeight + 36)
 
-size(horizontalAxis, verticalAxis)
 
+
+# Draw Horizontal Rectangle
+
+def drawRects():
+    horizontalRectWidth = signWidth - A * 2
+    horizontalRectHeight = signHeight * .38
+
+    verticalRectWidth = signWidth - B * 2
+    verticalRectHeight = signHeight - (A * 2) - (A * .15)
+
+    with savedState():
+
+        fill(1)
+        cmykStroke(0, 0, 0, 1)
+        strokeWidth(4)
+
+        rect(B, A + A * .15, verticalRectWidth, verticalRectHeight)
+        rect(A, signHeight * .33, horizontalRectWidth, horizontalRectHeight)
+
+        strokeWidth(0)
+        rect(B, A + A * .15, verticalRectWidth, verticalRectHeight)
+        rect(A, signHeight * .33, horizontalRectWidth, horizontalRectHeight)
+
+        strokeWidth(1)
+        lineDash((signWidth - B * 2) / 100, (signWidth - B * 2) / 100)
+        translate(((signWidth - B * 2) / 100) / 2, 0)
+        line((B, signHeight * .33 - 1), (signWidth - B, signHeight * .33 - 1))
+        line((B, signHeight * .71 + 1), (signWidth - B, signHeight * .71 + 1))
+
+
+# Draw Vertical Rectangle
+
+translate(18, 18)
+fill()
+cmykStroke(0, 0, 0, 1)
+rect(0, 0, signWidth, signHeight)
+drawRects()
 drawopticalCenter()
 
-# saveImage("sheet.pdf")
+
+saveImage("sheet-02.pdf")
