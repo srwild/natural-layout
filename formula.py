@@ -88,4 +88,4 @@ drawRects()
 drawopticalCenter()
 
 # Save the sign
-saveImage("sign.pdf")
+saveImage("export/sign.pdf")
